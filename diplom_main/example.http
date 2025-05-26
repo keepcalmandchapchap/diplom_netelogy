@@ -1,0 +1,12 @@
+@baseUrl = http://127.0.0.1:8000/
+
+POST {{baseUrl}}/user/
+Content-Type: application/json
+
+{
+    "first_name": "Петров",
+    "last_name": "Данила",
+    "email": "danya@no.ru",
+    "phone": "+7 (924) 135-12-12",
+    "password": "qwerty"
+}

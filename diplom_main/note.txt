@@ -1,0 +1,28 @@
+python manage.py flush - полностью очистить БД от данных
+Вынеси настройки БД в переменны окружения!
+
+
+сделать скрипт создания групп!
+
+
+'manager_base', 'employee_base'
+
+user_1 = {
+    'first_name': 'Павел',
+    'last_name': 'Тестов',
+    'email': 'test_clinet@diplom.com',
+    'password': 'qwe',
+}
+user_2 = {
+    'first_name': 'Дмитрий',
+    'last_name': 'Иванов',
+    'email': 'test_employee@diplom.com',
+    'password': 'qwe',
+}
+
+user_3 = {
+    'first_name': 'Анна',
+    'last_name': 'Смирнова',
+    'email': 'test_manager@diplom.com',
+    'password': 'qwe'
+}
