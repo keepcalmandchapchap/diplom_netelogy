@@ -27,3 +27,7 @@ class IsInGroups(permissions.BasePermission):
 
     def has_permission(self, request, view):
         return request.user.groups.filter(name__in=self.group).exists()
+    
+class IsVendorOrManager(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return request.user.groups.filter(name__in=['manager_base', 'vendor_base']).exists()

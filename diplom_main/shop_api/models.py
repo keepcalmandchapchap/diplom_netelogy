@@ -23,6 +23,12 @@ STATE_CHOICES = (
     ('canceled', 'Отказ'),
 )
 
+ITEM_TYPE_INFO = (
+    ('color', 'Цвет'),
+    ('weight', 'Вес'),
+    ('')
+)
+
 class Trial(models.Model):
     name = models.CharField(max_length=10)
     lastname = models.CharField(max_length=10)
@@ -38,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('name'), max_length=30, blank=True)
     last_name = models.CharField(_('surame'), max_length=30, blank=True)
     date_joined = models.DateField(_('registered'), auto_now_add=True)
-    is_active = models.BooleanField(_('is_active'), default=True)
+    is_active = models.BooleanField(_('is_active'), default=False)
     is_staff = models.BooleanField(_('is_staff'), default=False) #оставил is_staff для корректной работы админки
     is_superuser = models.BooleanField(_('is_superuser'), default=False)
 
@@ -129,7 +135,7 @@ class Address(models.Model):
     '''
     Адреса
     '''
-    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='addresses', verbose_name='Пользователь')
+    user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='address', verbose_name='Пользователь')
     city = models.CharField(max_length=100, verbose_name='Город')
     street = models.CharField(max_length=300, verbose_name='Улица')
     house = models.CharField(max_length=10, verbose_name='Дом')
@@ -161,19 +167,18 @@ class Address(models.Model):
 
 
 
-    class VendorInfo(models.Model):
-        '''
-        Информация о поставщиках
-        '''
-        user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='info_as_vendor', verbose_name='Пользователь')
-        name = models.CharField(max_length=300, unique=True, verbose_name='Название')
-        inn = models.CharField(max_length=12, unique=True, verbose_name='ИНН')
-        description = models.TextField(null=True, blank=True, verbose_name='Описание')
-        address = models.ForeignKey('Address', on_delete=models.DO_NOTHING, related_name='vendor', verbose_name='Адрес')
+class VendorInfo(models.Model):
+    '''
+    Информация о поставщиках
+    '''
+    user = models.OneToOneField('User', on_delete=models.CASCADE, related_name='info_as_vendor', verbose_name='Пользователь')
+    name = models.CharField(max_length=300, unique=True, verbose_name='Название')
+    inn = models.CharField(max_length=12, unique=True, verbose_name='ИНН')
+    description = models.TextField(null=True, blank=True, verbose_name='Описание')
 
-        class Meta:
-            verbose_name = 'Иноформация о сотруднике'
-            verbose_name_plural = 'Информация о сотрудниках'
+    class Meta:
+        verbose_name = 'Иноформация о сотруднике'
+        verbose_name_plural = 'Информация о сотрудниках'
 
     def __str__(self):
         return f'Пользователь: {self.user.email}, компания: {self.name}, ИНН: {self.inn}, адрес: {self.address.get_full_address()}'
@@ -195,12 +200,12 @@ class Order(models.Model):
     Заказ
     '''
     user = models.ForeignKey('User', on_delete=models.CASCADE, related_name='order', verbose_name='Пользователь')
-    address = models.ForeignKey('Address', on_delete=models.PROTECT, related_name='order', verbose_name='Адрес')
+    address = models.ForeignKey('Address', null=True, on_delete=models.PROTECT, related_name='order', verbose_name='Адрес')
     state = models.CharField(choices=STATE_CHOICES, default='basket', verbose_name='Статус')
     comment = models.TextField(null=True, blank=True, verbose_name='Комментарий')
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Общая сумма')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
-    update_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
     closed_at = models.DateTimeField(null=True, blank=True, verbose_name='Время закрытия')
     items = models.ManyToManyField('Item', through='OrderItem', verbose_name='Товары')
 
@@ -216,9 +221,10 @@ class Order(models.Model):
     def __str__(self):
         return f'ID заказа {self.id}. Дата создания: {self.create_at if self.created_at else 'Заказ в состоянии "Корзина\Закрыт\Доставлен"'}. Статус: {self.state}.'
     
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.state in ['delivered', 'canceled'] and not self.closed_at:
             self.closed_at = timezone.now()
+        return super().save(*args, **kwargs)
 
     def is_active(self):
         return self.state not in ['delivered', 'canceled']
@@ -235,6 +241,7 @@ class Item(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name='Цена')
     quantity = models.PositiveIntegerField(verbose_name='Количество')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
+    is_active = models.BooleanField(default=True, verbose_name='В продаже')
 
     class Meta:
         verbose_name = 'Товар'
@@ -278,8 +285,8 @@ class Item(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey('Order', on_delete=models.CASCADE, verbose_name='Заказ')
-    item = models.ForeignKey('Item', on_delete=models.PROTECT, verbose_name='Товар')
+    order = models.ForeignKey('Order', on_delete=models.CASCADE, verbose_name='Заказ', related_name='order_item')
+    item = models.ForeignKey('Item', on_delete=models.PROTECT, verbose_name='Товар', related_name='item_order')
     quantity = models.PositiveIntegerField(verbose_name='Количество')
     price_at_order = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена на момент заказа')
 
@@ -312,3 +319,12 @@ class Category(models.Model):
 
     def give_items(self):
         return {'name': self.items.id}
+    
+
+
+class ItemInfo(models.Model):
+    '''
+    Информация о товарах
+    '''
+    item = models.ForeignKey('Item', on_delete=models.CASCADE, verbose_name='Товар', related_name='item')
+    type_info = models.CharField()

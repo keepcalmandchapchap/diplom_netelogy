@@ -24,7 +24,14 @@ user_3 = {
     'password': 'qwe'
 }
 
-users = [user_1, user_2, user_3]
+user_4 = {
+    'first_name': 'Игорь',
+    'last_name': 'Брагин',
+    'email': 'test_vendor@diplom.com',
+    'password': 'qwe',
+}
+
+users = [user_1, user_2, user_3, user_4]
 
 class Command(BaseCommand):
     help = 'Скрипт для создания 3-ех пользователей для тестов'

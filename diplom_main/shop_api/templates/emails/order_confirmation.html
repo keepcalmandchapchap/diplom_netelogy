@@ -1,0 +1,12 @@
+<h2>Спасибо за ваш заказ!</h2>
+<p>Номер вашего заказа: {{ order.id }}</p>
+<p>Дата создания: {{ order.created_at|date:"d.m.Y H:i" }}</p>
+<p>Адрес доставки: {{ order.address }}</p>
+
+<ul>
+  {% for item in order.order.all %}
+    <li>{{ item.item.name }} x {{ item.quantity }} — {{ item.total_price }} руб.</li>
+  {% endfor %}
+</ul>
+
+<p><strong>Итого: {{ order.total_price }} руб.</strong></p>

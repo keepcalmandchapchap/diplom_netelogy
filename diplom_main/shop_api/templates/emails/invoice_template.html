@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Накладная</title>
+    <style>
+        body { font-family: sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        h2 { color: #2c3e50; }
+    </style>
+</head>
+<body>
+
+<h2>Накладная — Заказ №{{ order.id }}</h2>
+<p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+<p><strong>Клиент:</strong> {{ order.user.email }}</p>
+<p><strong>Адрес доставки:</strong> {{ order.address }}</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Товар</th>
+      <th>Цена</th>
+      <th>Кол-во</th>
+      <th>Сумма</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in order.order_item.all %}
+      <tr>
+        <td>{{ item.item.name }}</td>
+        <td>{{ item.price_at_order }} руб.</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.total_price }} руб.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3"><strong>Итого:</strong></td>
+      <td><strong>{{ order.total_price }} руб.</strong></td>
+    </tr>
+  </tfoot>
+</table>
+
+</body>
+</html>

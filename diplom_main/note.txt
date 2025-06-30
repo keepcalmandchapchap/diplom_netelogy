@@ -26,3 +26,21 @@ user_3 = {
     'email': 'test_manager@diplom.com',
     'password': 'qwe'
 }
+
+
+USER_TYPE_INFO = (
+    ('phone', 'Номер телефона'),
+    ('sex', 'Пол'),
+    ('birthdate', 'День рождения'),
+)
+
+STATE_CHOICES = (
+    ('basket', 'Корзина'),
+    ('created', 'Заказ создан'),
+    ('collecting', 'Собирается'),
+    ('collected', 'Собран'),
+    ('shipped', 'Отгружен'),
+    ('delivered', 'Доставлен'),
+    ('canceled', 'Отказ'),
+)
+p от smtp gzRsVH2YlRtZQwpa7Vqw
