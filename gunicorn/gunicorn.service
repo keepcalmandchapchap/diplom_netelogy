@@ -5,11 +5,11 @@ After=network.target
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=opt/diplom_main
-ExecStart=opt/diplom_main/.venv/bin/gunicorn \
+WorkingDirectory=/opt/diplom_netelogy
+ExecStart=/opt/diplom_netelogy/.venv/bin/gunicorn \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \
-          myproject.wsgi:application
+          diplom_main.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
