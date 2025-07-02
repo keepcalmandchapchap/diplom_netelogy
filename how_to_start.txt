@@ -13,19 +13,19 @@ sudo apt install python3-pip python3-venv nginx postgresql postgresql-contrib \
 ### Переключитесь на пользователя PostgreSQL:
 sudo -u postgres psql
 
+### Заменить пароль для УЗ БД.
+ALTER USER postgres WITH PASSWORD 'password';
+
 ### Создайте БД и пользователя:
 CREATE DATABASE diplom_db;
-CREATE USER diplom_user WITH PASSWORD 'your_strong_password';
-ALTER ROLE diplom_user SET client_encoding TO 'utf8';
-ALTER ROLE diplom_user SET default_transaction_isolation TO 'read committed';
-ALTER ROLE diplom_user SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE diplom_db TO diplom_user;
 \q
+exit
 
 ---
 
 ## 2. Склонируйте проект (если есть репозиторий)
 
+В данном проекте предпологалось сохранить корневую папку проекта в директории opt/
 git clone https://github.com/yourusername/your-drf-project.git 
 cd your-drf-project
 
@@ -34,24 +34,25 @@ cd your-drf-project
 ## 3. Создайте и активируйте виртуальное окружение через venv
 
 Выполнить команду: python3 -m venv .venv
-Активироват виртуальную среду: source venv/bin/actvate
-Установить все необходимые модули: pip install -r requirements
+Активироват виртуальную среду: source .venv/bin/actvate
+Установить все необходимые модули: pip install -r diplom_main/requirements
 
 ---
 
-## 4. Настройте `settings.py`
+## 4. Настройте `settings.py` и '.env'
 
 ### Обновите настройки базы данных:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'diplom_db',
-        'USER': 'diplom_user',
-        'PASSWORD': 'your_strong_password',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
+DB_NAME=diplom_db
+DB_USER=postgres
+DB_PASSWORD='password'
+DB_HOST=localhost
+
+EMAIL_HOST=smtp.mail.ru
+EMAIL_PORT=2525
+EMAIL_HOST_USER=... (почта для авторизации на smtp сервере)
+EMAIL_HOST_PASSWORD=...
+DEFAULT_FROM_EMAIL=... (почта для отправки писем по умолчанию)
+ORDER_NOTIFICATION_EMAIL=... (почта для отправки документов по заказам)
 
 ### Убедитесь, что установлены:
 INSTALLED_APPS += ['rest_framework', 'diplom_main']
@@ -67,6 +68,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ## 6. Выполните миграции и соберите статику
 
+python manage.py makemigrations
 python manage.py migrate
 python manage.py collectstatic
 
@@ -85,11 +87,11 @@ After=network.target
 [Service]
 User=root
 Group=www-data
-WorkingDirectory=opt/diplom_main
-ExecStart=opt/diplom_main/.venv/bin/gunicorn \
+WorkingDirectory=/opt/diplom_netelogy
+ExecStart=/opt/diplom_netelogy/.venv/bin/gunicorn \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \
-          myproject.wsgi:application
+          diplom_main.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
@@ -107,7 +109,7 @@ sudo systemctl status gunicorn
 ## 8. Настройка Nginx
 
 ### Создайте конфиг:
-sudo nano /etc/nginx/sites-available/drf-project
+sudo nano /etc/nginx/sites-available/diplom_main
 
 server {
     listen 80;
@@ -116,7 +118,7 @@ server {
     location = /favicon.ico { access_log off; log_not_found off; }
 
     location /static/ {
-        alias opt/diplom_main/staticfiles/;
+        alias /opt/diplom_netelogy/diplom_main/staticfiles;
     }
 
     location / {
@@ -131,7 +133,7 @@ server {
 }
 
 ### Активируйте сайт:
-sudo ln -s /etc/nginx/sites-available/drf-project /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/diplom_main /etc/nginx/sites-enabled/
 
 ### Проверьте конфигурацию и перезапустите Nginx:
 sudo nginx -t
