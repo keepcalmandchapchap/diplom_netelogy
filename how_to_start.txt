@@ -1,0 +1,148 @@
+# ✅ Действия для старта DRF-проекта
+
+## 1. Подготовка окружения
+
+### Установите зависимости:
+sudo apt update
+
+sudo apt install python3-pip python3-venv nginx postgresql postgresql-contrib \
+    build-essential python3-dev git curl unzip weasyprint \
+
+## 2. Настройка PostgreSQL
+
+### Переключитесь на пользователя PostgreSQL:
+sudo -u postgres psql
+
+### Создайте БД и пользователя:
+CREATE DATABASE diplom_db;
+CREATE USER diplom_user WITH PASSWORD 'your_strong_password';
+ALTER ROLE diplom_user SET client_encoding TO 'utf8';
+ALTER ROLE diplom_user SET default_transaction_isolation TO 'read committed';
+ALTER ROLE diplom_user SET timezone TO 'UTC';
+GRANT ALL PRIVILEGES ON DATABASE diplom_db TO diplom_user;
+\q
+
+---
+
+## 2. Склонируйте проект (если есть репозиторий)
+
+git clone https://github.com/yourusername/your-drf-project.git 
+cd your-drf-project
+
+---
+
+## 3. Создайте и активируйте виртуальное окружение через venv
+
+Выполнить команду: python3 -m venv .venv
+Активироват виртуальную среду: source venv/bin/actvate
+Установить все необходимые модули: pip install -r requirements
+
+---
+
+## 4. Настройте `settings.py`
+
+### Обновите настройки базы данных:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'diplom_db',
+        'USER': 'diplom_user',
+        'PASSWORD': 'your_strong_password',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
+### Убедитесь, что установлены:
+INSTALLED_APPS += ['rest_framework', 'diplom_main']
+
+### Настройте:
+ALLOWED_HOSTS = ['your_domain_or_ip']
+DEBUG = False
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+---
+
+## 6. Выполните миграции и соберите статику
+
+python manage.py migrate
+python manage.py collectstatic
+
+---
+
+## 7. Настройка Gunicorn как службы systemd
+
+### Создайте юнит-файл:
+sudo nano /etc/systemd/system/gunicorn.service
+
+### Вставьте следующее (адаптируй под свой путь):
+[Unit]
+Description=Gunicorn for DRF project
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=opt/diplom_main
+ExecStart=opt/diplom_main/.venv/bin/gunicorn \
+          --workers 3 \
+          --bind unix:/run/gunicorn.sock \
+          myproject.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
+### Активируйте службу:
+sudo systemctl daemon-reload
+sudo systemctl enable gunicorn
+sudo systemctl start gunicorn
+
+Проверь статус:
+sudo systemctl status gunicorn
+
+---
+
+## 8. Настройка Nginx
+
+### Создайте конфиг:
+sudo nano /etc/nginx/sites-available/drf-project
+
+server {
+    listen 80;
+    server_name ip;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+
+    location /static/ {
+        alias opt/diplom_main/staticfiles/;
+    }
+
+    location / {
+        proxy_pass http://unix:/run/gunicorn.sock:/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_connect_timeout 60s;
+        proxy_read_timeout 120s;
+    }
+}
+
+### Активируйте сайт:
+sudo ln -s /etc/nginx/sites-available/drf-project /etc/nginx/sites-enabled/
+
+### Проверьте конфигурацию и перезапустите Nginx:
+sudo nginx -t
+sudo systemctl restart nginx
+
+---
+
+
+## ✅ Готово!
+
+Теперь ваш DRF-проект доступен по адресу:
+http://your_domain_or_ip
+
+Если всё сделано верно, вы увидите Browsable API или ответ от вашего API.
