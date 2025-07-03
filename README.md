@@ -17,8 +17,8 @@ sudo -u postgres psql
 ALTER USER postgres WITH PASSWORD 'password';
 
 ### Создайте БД и пользователя:
-CREATE DATABASE diplom_db;
-\q
+CREATE DATABASE diplom_db; \
+\q \
 exit
 
 ---
@@ -42,34 +42,34 @@ cd your-drf-project
 ## 4. Настройте `settings.py` и '.env'
 
 ### Обновите настройки базы данных:
-DB_NAME=diplom_db
-DB_USER=postgres
-DB_PASSWORD='password'
-DB_HOST=localhost
+DB_NAME=diplom_db \
+DB_USER=postgres \
+DB_PASSWORD='password' \
+DB_HOST=localhost 
 
-EMAIL_HOST=smtp.mail.ru
-EMAIL_PORT=2525
-EMAIL_HOST_USER=... (почта для авторизации на smtp сервере)
-EMAIL_HOST_PASSWORD=...
-DEFAULT_FROM_EMAIL=... (почта для отправки писем по умолчанию)
+EMAIL_HOST=smtp.mail.ru \
+EMAIL_PORT=2525 \
+EMAIL_HOST_USER=... (почта для авторизации на smtp сервере) \
+EMAIL_HOST_PASSWORD=... \
+DEFAULT_FROM_EMAIL=... (почта для отправки писем по умолчанию) \
 ORDER_NOTIFICATION_EMAIL=... (почта для отправки документов по заказам)
 
 ### Убедитесь, что установлены:
 INSTALLED_APPS += ['rest_framework', 'diplom_main']
 
 ### Настройте:
-ALLOWED_HOSTS = ['your_domain_or_ip']
+ALLOWED_HOSTS = ['your_domain_or_ip'] \
 DEBUG = False
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/' \
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 ---
 
 ## 6. Выполните миграции и соберите статику
 
-python manage.py makemigrations
-python manage.py migrate
+python manage.py makemigrations \
+python manage.py migrate \
 python manage.py collectstatic
 
 ---
@@ -81,13 +81,13 @@ sudo nano /etc/systemd/system/gunicorn.service
 
 ### Вставьте следующее (адаптируй под свой путь):
 [Unit]
-Description=Gunicorn for DRF project
+Description=Gunicorn for DRF project \
 After=network.target
 
 [Service]
-User=root
-Group=www-data
-WorkingDirectory=/opt/diplom_netelogy
+User=root \
+Group=www-data \
+WorkingDirectory=/opt/diplom_netelogy \
 ExecStart=/opt/diplom_netelogy/.venv/bin/gunicorn \
           --workers 3 \
           --bind unix:/run/gunicorn.sock \
