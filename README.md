@@ -23,15 +23,14 @@ exit
 
 ---
 
-## 2. Склонируйте проект (если есть репозиторий)
+## 3. Склонируйте проект
 
 В данном проекте предпологалось сохранить корневую папку проекта в директории opt/
-git clone https://github.com/yourusername/your-drf-project.git 
-cd your-drf-project
+git clone https://github.com/keepcalmandchapchap/diplom_netelogy/
 
 ---
 
-## 3. Создайте и активируйте виртуальное окружение через venv
+## 4. Создайте и активируйте виртуальное окружение через venv
 
 Выполнить команду: python3 -m venv .venv
 Активироват виртуальную среду: source .venv/bin/actvate
@@ -39,7 +38,7 @@ cd your-drf-project
 
 ---
 
-## 4. Настройте `settings.py` и '.env'
+## 5. Настройте `settings.py` и '.env'
 
 ### Обновите настройки базы данных:
 DB_NAME=diplom_db \
