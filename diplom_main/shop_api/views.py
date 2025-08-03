@@ -31,17 +31,13 @@ from .permissions import IsInGroups, IsVendorOrManager
 from .utils import send_customer_order_confirmation, generate_and_send_invoice_pdf, send_order_delivered_email, generate_activation_token, validate_activation_token
 
 
-
-def gen_error(serializer, error_status: status): 
+def gen_error(serializer, error_status: status):
     if not serializer.is_valid():
-            return Response(
-                {
-                    'status': 'error',
-                    'errors': serializer.errors,
-            }, status=error_status
-            )
-
-
+        return Response(
+            {
+                'status': 'error',
+                'errors': serializer.errors,
+            }, status=error_status)
 
 
 class RegisterView(APIView):
@@ -76,8 +72,6 @@ class RegisterView(APIView):
             }, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
 
 
 class ActivateAccountView(APIView):
@@ -100,8 +94,6 @@ class ActivateAccountView(APIView):
                 'status': 'error',
                 'message': 'Неверный или просроченный токен.'
             }, status=status.HTTP_400_BAD_REQUEST)
-    
-
 
 
 class LoginView(APIView):
@@ -115,19 +107,17 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data, context={'request': request})
 
         gen_error(serializer, status.HTTP_401_UNAUTHORIZED)
-        
+
         user = serializer.validated_data['user']
         refresh = RefreshToken.for_user(user)
         response_data = {
             'status': 'success'
         }
         headers = {
-                'Authorization': f'Bearer {str(refresh.access_token)}',
-                'X-Refresh-Token': str(refresh)
+            'Authorization': f'Bearer {str(refresh.access_token)}',
+            'X-Refresh-Token': str(refresh)
         }
         return Response(response_data, headers=headers, status=status.HTTP_200_OK)
-        
-
 
 
 class UserInfoOwnerView(ModelViewSet):
@@ -147,11 +137,11 @@ class UserInfoOwnerView(ModelViewSet):
                 'status': 'error', 'message': 'Запись с таким типом информации уже существует'
             }, status=status.HTTP_400_BAD_REQUEST)
         return super().create(request, *args, **kwargs)
-    
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data)
-        
+
         type_info = request.data.get('type_info', instance.type_info)
 
         if UserInfo.objects.filter(user=request.user, type_info=type_info).exclude(pk=instance.pk).exists():
@@ -173,11 +163,9 @@ class UserInfoOwnerView(ModelViewSet):
             'status': 'success',
             'message': 'Запись успешно удалена'
         }, status=status.HTTP_200_OK)
-    
+
     def perform_destroy(self, instance):
         instance.delete()
-
-
 
 
 class PositionView(ModelViewSet):
@@ -192,8 +180,6 @@ class PositionView(ModelViewSet):
         if self.request.method in ['POST', 'PUT', 'DELETE']:
             return [IsInGroups(['manager_base'])]
         return super().get_permissions()
-    
-
 
 
 class StaffInfoView(ModelViewSet):
@@ -219,8 +205,8 @@ class StaffInfoView(ModelViewSet):
             return [IsAuthenticated()]
         else:
             return [IsAuthenticated(), IsInGroups(['manager_base'])]
-        
-    @action(detail=True, methods=['patch'], permission_classes = [IsAuthenticated, IsInGroups(['manager_base'])])
+
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated, IsInGroups(['manager_base'])])
     def dissmiss(self, request, pk=None):
         staff_info = self.get_object()
         staff_info.is_active = False
@@ -231,10 +217,9 @@ class StaffInfoView(ModelViewSet):
         for staff_group in staff_groups:
             staff_info.user.groups.remove(staff_group)
         staff_info.save()
-        return Response({'status': 'success',
-                          'message': f'Сотрудник {staff_info.user.email} уволен'})
-    
-
+        return Response({
+            'status': 'success',
+            'message': f'Сотрудник {staff_info.user.email} уволен'})
 
 
 class AddressClientView(ModelViewSet):
@@ -243,7 +228,7 @@ class AddressClientView(ModelViewSet):
 
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
-    
+
     def get_object(self):
         queryset = self.get_queryset()
         pk = self.kwargs.get('pk')
@@ -255,18 +240,14 @@ class AddressClientView(ModelViewSet):
         serializer.save(user=self.request.user)
 
 
-
-
 class AddressManagerView(ModelViewSet):
     serializer_class = AddressManagerSerializer
-    
+
     def get_permissions(self):
         return [IsAuthenticated(), IsInGroups(['manager_base'])]
-    
+
     def get_queryset(self):
         return Address.objects.all()
-    
-
 
 
 class VendorInfoView(ModelViewSet):
@@ -277,7 +258,7 @@ class VendorInfoView(ModelViewSet):
             return [IsAuthenticated(), IsInGroups(['vendor_base'])]
         else:
             return [IsAuthenticated(), IsInGroups(['manager_base'])]
-    
+
     def get_queryset(self):
         return VendorInfo.objects.all()
 
@@ -291,7 +272,7 @@ class VendorInfoView(ModelViewSet):
             return obj
         except VendorInfo.DoesNotExist:
             raise NotFound('Запись указанного поставщика не найдена.')
-    
+
     @action(detail=False, methods=['patch'])
     def change_description(self, request):
         vendor_info = VendorInfo.objects.get(user=request.user.id)
@@ -307,14 +288,11 @@ class VendorInfoView(ModelViewSet):
         }, status=status.HTTP_200_OK)
 
 
-
-
 class ItemView(ModelViewSet):
     serializer_class = ItemSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     searCLEARch_fields = ['name', 'description', 'vendor', 'categories_name']
     ordering_fields = ['price', 'updated_at', 'vendor', 'is_active', 'quantity']
-
 
     def get_permissions(self):
         if self.action in ['new_item', 'change_price', 'activate', 'deactivate', ]:
@@ -328,11 +306,11 @@ class ItemView(ModelViewSet):
 
     def get_queryset(self):
         queryset = Item.objects.all()
-    
+
         category_id = self.request.query_params.get('category')
         if category_id:
             queryset = Item.objects.filter(categories__id=category_id)
-        
+
         category_ids = self.request.query_params.get('categories')
         if category_ids:
             category_list = category_ids.split(',')
@@ -350,12 +328,12 @@ class ItemView(ModelViewSet):
         serializer = self.get_serializer(data=mutable_data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
-        return Response({'status': 'success',}, status=status.HTTP_201_CREATED)
-    
+        return Response({'status': 'success', }, status=status.HTTP_201_CREATED)
+
     @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated, IsInGroups(['vendor_base'])])
     def change_price(self, request, pk=None):
         item = self.get_object()
-        
+
         if item.vendor != request.user:
             raise PermissionDenied('Вы не имеете право взаимодействовать с этим товаром.')
 
@@ -363,7 +341,7 @@ class ItemView(ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
-    
+
     @action(detail=True, methods=['patch'])
     def deactivate(self, request, pk=None):
         item = self.get_object()
@@ -379,7 +357,6 @@ class ItemView(ModelViewSet):
         item.save()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
 
-
     @action(detail=True, methods=['patch'])
     def activate(self, request, pk=None):
         item = self.get_object()
@@ -394,8 +371,8 @@ class ItemView(ModelViewSet):
                              'message': 'Товар уже в продаже.'})
         item.save()
         return Response({'status': 'success'}, status=status.HTTP_200_OK)
-    
-    @action(detail=True, methods=['post'])                                  #!!!!!!!!!!!
+
+    @action(detail=True, methods=['post'])
     def add_to_basket(self, request, pk):
         quantity = request.data.get('quantity')
 
@@ -406,7 +383,7 @@ class ItemView(ModelViewSet):
             item = Item.objects.get(pk=pk)
         except Item.DoesNotExist:
             raise NotFound('Указанный товар не найден')
-        
+
         basket, created = Order.objects.get_or_create(user=self.request.user, state='basket')
 
         order_item, created = OrderItem.objects.get_or_create(item=item, order=basket, defaults={'quantity': quantity})
@@ -424,8 +401,6 @@ class ItemView(ModelViewSet):
         }, status=status.HTTP_201_CREATED)
 
 
-
-
 class CategoryView(ModelViewSet):
     serializer_class = CategorySerializer
 
@@ -434,10 +409,10 @@ class CategoryView(ModelViewSet):
             return []
         else:
             return [IsAuthenticated(), IsInGroups(['employee_base', 'manager_base', ])]
-        
+
     def get_queryset(self):
         return Category.objects.all()
-    
+
     @action(detail=False, methods=['POST'])
     def add_item(self, request):
         category_id = request.data.get('category')
@@ -445,33 +420,33 @@ class CategoryView(ModelViewSet):
 
         if not category_id:
             return Response({
-                             'status': 'error',
-                            'message': 'Не указана категория'
-            },status=status.HTTP_400_BAD_REQUEST)
-        
+                'status': 'error',
+                'message': 'Не указана категория'},
+                status=status.HTTP_400_BAD_REQUEST)
+
         if not item_id:
             return Response({
                 'status': 'error',
                 'message': 'Не указан товар'
             }, status=status.HTTP_400_BAD_REQUEST)
-        
+
         try:
             category_obj = Category.objects.get(id=category_id)
         except Category.DoesNotExist:
             raise NotFound('Категория не найдена')
-        
+
         try:
             item_obj = Item.objects.get(id=item_id)
         except Item.DoesNotExist:
             raise NotFound('Товар не найден')
-        
+
         category_obj.items.add(item_obj)
-        
+
         return Response({
             'status': 'success',
             'data': request.data,
         }, status=status.HTTP_201_CREATED)
-    
+
     @action(detail=False, methods=['post'])
     def add_items(self, request):
         category_id = request.data.get('category')
@@ -480,32 +455,30 @@ class CategoryView(ModelViewSet):
         if not category_id:
             return Response({
                 'status': 'error',
-                'message': 'В запросе не указана категория'
-            },status=status.HTTP_400_BAD_REQUEST)
-        
+                'message': 'В запросе не указана категория'},
+                status=status.HTTP_400_BAD_REQUEST)
+
         if not items_ids:
             return Response({
                 'status': 'error',
                 'message': 'В запросе не указаны товары!'
             }, status=status.HTTP_400_BAD_REQUEST)
-        
+
         items_ids_json = json.loads(items_ids)
-        
+
         try:
             category_obj = Category.objects.get(id=category_id)
         except Category.DoesNotExist:
             raise NotFound('Категория не найдена')
-        
+
         items_objs = Item.objects.filter(id__in=items_ids_json)
-        
+
         category_obj.items.add(*items_objs)
 
         return Response({
             'status': 'success',
             'data': request.data
         }, status=status.HTTP_200_OK)
-    
-
 
 
 def __get_order_and_change_state(pk, state):
@@ -513,7 +486,7 @@ def __get_order_and_change_state(pk, state):
         order_obj = Order.objects.get(pk=pk)
     except Order.DoesNotExist:
         raise NotFound('Указанный заказ не найден.')
-    
+
     order_obj.state = f'{state}'
     order_obj.save()
 
@@ -523,14 +496,12 @@ def __get_order_and_change_state(pk, state):
     }, status=status.HTTP_200_OK)
 
 
-
-
 class OrderView(ModelViewSet):
     serializer_class = OrderSerializer
 
     def get_queryset(self):
         return Order.objects.all()
-    
+
     def get_permissions(self):
         if self.action in ['start_order', 'order_canceled', 'get_my_orders']:
             return [IsAuthenticated()]
@@ -540,13 +511,13 @@ class OrderView(ModelViewSet):
             return [IsAuthenticated(), IsInGroups(['manager_base', ])]
         else:
             return [IsAuthenticated(), IsInGroups(['manager_base'])]
-        
+
     def __get_order_and_change_state(self, pk, state):
         try:
             order_obj = Order.objects.get(pk=pk)
         except Order.DoesNotExist:
             raise NotFound('Указанный заказ не найден.')
-        
+
         order_obj.state = f'{state}'
         order_obj.save()
 
@@ -564,23 +535,21 @@ class OrderView(ModelViewSet):
                 'status': 'error',
                 'message': 'У Вас нет заказов.'
             }, status=status.HTTP_400_BAD_REQUEST)
-        
+
         serializer = self.get_serializer(orders, many=True)
 
-        
         return Response({
             'status': 'success',
             'data': serializer.data,
         }, status=status.HTTP_200_OK)
-    
-    
+
     @action(detail=True, methods=['patch'])
     def start_order(self, request, pk):
         try:
             order_obj = Order.objects.get(pk=pk)
         except Order.DoesNotExist:
             raise NotFound('Корзина с данным ID не найдена.')
-        
+
         address_id = int(request.data.get('address'))
 
         if not address_id:
@@ -588,12 +557,12 @@ class OrderView(ModelViewSet):
                 'status': 'error',
                 'message': 'В запросе не указан адрес.'
             })
-        
+
         try:
             address_obj = Address.objects.get(id=address_id)
         except Address.DoesNotExist:
             raise NotFound('Указанный адрес не найден')
-        
+
         if address_obj.user != self.request.user:
             return Response({
                 'status': 'error',
@@ -618,20 +587,20 @@ class OrderView(ModelViewSet):
 
         send_customer_order_confirmation(order_obj)
         generate_and_send_invoice_pdf(order_obj)
-        
+
         return Response({
             'status': 'success',
             'message': 'Заказ успешно создан',
         }, status=status.HTTP_200_OK)
-    
+
     @action(detail=True, methods=['patch'])
     def order_collecting(self, request, pk):
         return __get_order_and_change_state(pk, 'collecting')
-    
+
     @action(detail=True, methods=['patch'])
     def order_collected(self, request, pk):
         return __get_order_and_change_state(pk, 'collected')
-    
+
     @action(detail=True, methods=['patch'])
     def order_shipped(self, request, pk):
         return __get_order_and_change_state(pk, 'shipped')
@@ -642,7 +611,7 @@ class OrderView(ModelViewSet):
             order_obj = Order.objects.get(pk=pk)
         except Order.DoesNotExist:
             raise NotFound('Указанный заказ не найден')
-        
+
         order_obj.state, order_obj.closed_at = 'delivered', datetime.datetime.now()
         order_obj.save()
 
@@ -652,7 +621,6 @@ class OrderView(ModelViewSet):
             'status': 'success',
             'message': 'Статус заказа изменен на "delivered".'
         }, status=status.HTTP_200_OK)
-        
 
     @action(detail=True, methods=['patch'])
     def order_canceled(self, request, pk):
@@ -660,7 +628,7 @@ class OrderView(ModelViewSet):
             order_obj = Order.objects.get(pk=pk)
         except Order.DoesNotExist:
             raise NotFound('Указанный заказ не найден')
-        
+
         comment = request.data.get('comment')
         if not comment:
             comment = 'Комментарий причины отказа отсутствует.'
@@ -672,8 +640,7 @@ class OrderView(ModelViewSet):
                 product.quantity += item.quantity
                 product.save(update_fields=['quantity'])
 
-
-        order_obj.state, order_obj.comment, order_obj.closed_at = 'canceled', comment, datetime.datetime.now() 
+        order_obj.state, order_obj.comment, order_obj.closed_at = 'canceled', comment, datetime.datetime.now()
         order_obj.save()
 
         return Response({
@@ -682,11 +649,9 @@ class OrderView(ModelViewSet):
         }, status=status.HTTP_200_OK)
 
 
-
-
 class UploadItemsCSV(APIView):
     parser_classes = [MultiPartParser]
-    
+
     permission_classes = [IsAuthenticated, IsVendorOrManager]
 
     def post(self, request, *args, **kwargs):
@@ -710,7 +675,6 @@ class UploadItemsCSV(APIView):
                 }, status=status.HTTP_400_BAD_REQUEST)
         else:
             vendor = request.user.id
-
 
         for row in csv_reader:
             print(row)

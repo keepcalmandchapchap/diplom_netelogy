@@ -3,6 +3,7 @@ from django.contrib.auth.models import Group
 
 GROUPS = ['manager_base', 'employee_base', 'vendor_base', ]
 
+
 class Command(BaseCommand):
     help = 'Команда для создания двух базовых групп - manager_base и employee_base'
 

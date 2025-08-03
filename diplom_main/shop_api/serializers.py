@@ -2,10 +2,12 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import User, UserInfo, Position, StaffInfo, Address, VendorInfo, Item, Category, Order
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     '''
@@ -20,7 +22,7 @@ class RegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
-    
+
 
 class LoginSerializer(serializers.Serializer):
     '''
@@ -49,8 +51,6 @@ class LoginSerializer(serializers.Serializer):
         return attrs
 
 
-
-
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInfo
@@ -60,13 +60,10 @@ class UserInfoSerializer(serializers.ModelSerializer):
         }
 
 
-
-
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
         fields = '__all__'
-
 
 
 class StaffInfoSerializer(serializers.ModelSerializer):
@@ -83,20 +80,24 @@ class AddressClientSerializer(serializers.ModelSerializer):
             'user': {'read_only': True}
         }
 
+
 class AddressManagerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
         fields = '__all__'
+
 
 class VendorInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = VendorInfo
         fields = '__all__'
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = '__all__'
+
 
 class CategorySerializerForItem(serializers.ModelSerializer):
     class Meta:
@@ -107,6 +108,7 @@ class CategorySerializerForItem(serializers.ModelSerializer):
             'name': {'read_only': True},
         }
 
+
 class ItemSerializer(serializers.ModelSerializer):
     categories = CategorySerializerForItem(many=True, read_only=True)
 
@@ -114,8 +116,9 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = ['id', 'name', 'vendor', 'price', 'updated_at', 'is_active', 'categories', 'quantity', ]
         extra_kwargs = {
-            'id': {'read_only': True}, 
+            'id': {'read_only': True},
         }
+
 
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:

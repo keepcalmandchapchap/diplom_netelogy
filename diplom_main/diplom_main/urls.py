@@ -35,7 +35,7 @@ router.register('api/order', OrderView, 'order')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'), #исходя из ответов GigaChat, то лучше оставить проверку токенов на фронтенд
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # исходя из ответов GigaChat, то лучше оставить проверку токенов на фронтенд
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/register/', RegisterView.as_view(), name='user'),
     path('api/login/', LoginView.as_view(), name='login'),

@@ -5,11 +5,11 @@ from django.contrib.auth.models import Group
 
 User = get_user_model()
 
+
 class Command(BaseCommand):
     help = 'Привязывает тестовых пользователей к группам'
 
     def handle(self, *arrgs, **kwargs):
-        users = ['test_employee@diplom.com', 'test_manager@diplom.com', 'test_vendor@diplom.com', ]
         try:
             user_employee = User.objects.get(email='test_employee@diplom.com')
         except User.DoesNotExist:
@@ -25,12 +25,11 @@ class Command(BaseCommand):
         except User.DoesNotExist:
             self.stdout.write(self.style.ERROR('Пользователь test_vendor@diplom.com не найден'))
 
-
-        try:   
+        try:
             group_employee = Group.objects.get(name='employee_base')
         except Group.DoesNotExist:
             self.stdout.write(self.style.ERROR('Группа employee_base не найдена'))
-        
+
         try:
             group_manager = Group.objects.get(name='manager_base')
         except Group.DoesNotExist:
@@ -41,7 +40,6 @@ class Command(BaseCommand):
         except Group.DoesNotExist:
             self.stdout.write(self.style.ERROR('Группа vendor_base не найдена'))
 
-        
         user_employee.groups.add(group_employee)
         user_employee.save()
         self.stdout.write(self.style.SUCCESS('Пользователь test_employee@diplom.com добавлен к группе employee_base'))

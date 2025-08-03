@@ -33,9 +33,10 @@ user_4 = {
 
 users = [user_1, user_2, user_3, user_4]
 
+
 class Command(BaseCommand):
     help = 'Скрипт для создания 3-ех пользователей для тестов'
-    
+
     def handle(self, *args, **options):
         for user_raw in users:
             if User.objects.filter(email=user_raw['email']).exists():
