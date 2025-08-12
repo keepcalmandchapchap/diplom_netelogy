@@ -19,19 +19,20 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView, TokenObtainPairView
 
-from shop_api.views import RegisterView, LoginView, PositionView, UserInfoOwnerView, StaffInfoView, AddressClientView, AddressManagerView
-from shop_api.views import VendorInfoView, ItemView, CategoryView, OrderView, ActivateAccountView, UploadItemsCSV
+from shop_api.views import RegisterView, LoginView, PositionView, UserInfoOwnerView, StaffInfoView, AddressClientView, AddressManagerView, ItemInfoView
+from shop_api.views import VendorInfoView, ItemView, CategoryView, OrderView, ActivateAccountView, UploadItemsCSV, PasswordResetView, PasswordResetConfirmView
 
 router = DefaultRouter()
-router.register('api/position', PositionView, 'position')
-router.register('api/user-info', UserInfoOwnerView, 'user-info')
-router.register('api/staff-info', StaffInfoView, 'staff-info')
-router.register('api/address/client-address', AddressClientView, 'address-client')
-router.register('api/address/manager-address', AddressManagerView, 'address-manager')
+router.register('api/position/', PositionView, 'position')
+router.register('api/user-info/', UserInfoOwnerView, 'user-info')
+router.register('api/staff-info/', StaffInfoView, 'staff-info')
+router.register('api/address/client-address/', AddressClientView, 'address-client')
+router.register('api/address/manager-address/', AddressManagerView, 'address-manager')
 router.register('api/vendor-info', VendorInfoView, 'vendor-info')
-router.register('api/items', ItemView, 'items')
-router.register('api/categories', CategoryView, 'category')
-router.register('api/order', OrderView, 'order')
+router.register('api/items/', ItemView, 'items')
+router.register('api/categories/', CategoryView, 'category')
+router.register('api/order/', OrderView, 'order')
+router.register('api/item-info', ItemInfoView, 'item-info')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -41,5 +42,8 @@ urlpatterns = [
     path('api/login/', LoginView.as_view(), name='login'),
     path('activate/<str:token>/', ActivateAccountView.as_view(), name='activate_account'),
     path('api/upload-csv/', UploadItemsCSV.as_view(), name='upload_csv'),
+    path('api/password-reset/', PasswordResetView.as_view(), name='password_reset'),
+    path('api/pass_reset_email/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
+
 urlpatterns += router.urls

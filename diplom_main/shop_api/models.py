@@ -22,12 +22,6 @@ STATE_CHOICES = (
     ('canceled', 'Отказ'),
 )
 
-ITEM_TYPE_INFO = (
-    ('color', 'Цвет'),
-    ('weight', 'Вес'),
-    ('')
-)
-
 
 class User(AbstractBaseUser, PermissionsMixin):
     '''
@@ -306,5 +300,10 @@ class ItemInfo(models.Model):
     '''
     Информация о товарах
     '''
-    item = models.ForeignKey('Item', on_delete=models.CASCADE, verbose_name='Товар', related_name='item')
-    type_info = models.CharField()
+    item = models.ForeignKey('Item', on_delete=models.CASCADE, verbose_name='Товар', related_name='info')
+    type_info = models.CharField(max_length=150, unique=False, verbose_name='Тип информации')
+    value_info = models.CharField(max_length=300, unique=False, default='Не указано', verbose_name='Значение информации')
+
+    class Meta:
+        verbose_name = 'Информация о товаре'
+        verbose_name_plural = 'Информация о товарах'

@@ -6,7 +6,8 @@ ignore =
     D102,    
     D103,    
     D107,     
-
+    E722,
+    
 exclude =
     */migrations/,
     ./.venv/,

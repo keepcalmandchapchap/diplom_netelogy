@@ -9,11 +9,14 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
+from django.utils.http import urlsafe_base64_decode
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.contrib.auth.tokens import default_token_generator
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
@@ -24,11 +27,13 @@ from rest_framework.exceptions import NotFound, PermissionDenied
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from .serializers import RegisterSerializer, UserInfoSerializer, LoginSerializer, PositionSerializer, StaffInfoSerializer, AddressClientSerializer
-from .serializers import AddressManagerSerializer, VendorInfoSerializer, ItemSerializer, CategorySerializer, OrderSerializer
-from .models import UserInfo, Position, StaffInfo, Address, VendorInfo, Item, Category, Order, OrderItem
+from .serializers import RegisterSerializer, UserInfoSerializer, LoginSerializer, PositionSerializer, StaffInfoSerializer, AddressClientSerializer, ItemInfoSerializer
+from .serializers import AddressManagerSerializer, VendorInfoSerializer, ItemSerializer, CategorySerializer, OrderSerializer, PasswordResetSerializer, PasswordResetConfirmSerializer
+from .models import UserInfo, Position, StaffInfo, Address, VendorInfo, Item, Category, Order, OrderItem, ItemInfo
 from .permissions import IsInGroups, IsVendorOrManager
 from .utils import send_customer_order_confirmation, generate_and_send_invoice_pdf, send_order_delivered_email, generate_activation_token, validate_activation_token
+
+User = get_user_model()
 
 
 def gen_error(serializer, error_status: status):
@@ -74,6 +79,46 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class PasswordResetView(APIView):
+    def post(self, request):
+        serializer = PasswordResetSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'status': 'success',
+                'message': 'Ссылка для сброса пароля отправлена на ваш email.'
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PasswordResetConfirmView(APIView):
+    def post(self, request, uidb64, token):
+        try:
+            uid = urlsafe_base64_decode(uidb64).decode()
+            user = User.objects.get(pk=uid)
+        except [User.DoesNotExist, ValueError]:
+            return Response({
+                'status': 'error',
+                'message': 'Неверная ссылка для сброса пароля.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        if not default_token_generator.check_token(user, token):
+            return Response({
+                'status': 'error',
+                'message': 'Токен неверный.'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        if serializer.is_valid():
+            user.set_password(serializer.validated_data['new_password'])
+            user.save()
+            return Response({
+                'status': 'success',
+                'message': 'Пароль успешно изменён. Пробуйте войти.'
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class ActivateAccountView(APIView):
     def get(self, request, token):
         user = validate_activation_token(token)
@@ -107,6 +152,9 @@ class LoginView(APIView):
         serializer = LoginSerializer(data=request.data, context={'request': request})
 
         gen_error(serializer, status.HTTP_401_UNAUTHORIZED)
+        error_response = gen_error(serializer, status.HTTP_401_UNAUTHORIZED)
+        if error_response:
+            return error_response
 
         user = serializer.validated_data['user']
         refresh = RefreshToken.for_user(user)
@@ -256,6 +304,8 @@ class VendorInfoView(ModelViewSet):
     def get_permissions(self):
         if self.action in ['change_description']:
             return [IsAuthenticated(), IsInGroups(['vendor_base'])]
+        elif self.request.user.is_superuser is True:
+            return [IsAdminUser()]
         else:
             return [IsAuthenticated(), IsInGroups(['manager_base'])]
 
@@ -272,6 +322,31 @@ class VendorInfoView(ModelViewSet):
             return obj
         except VendorInfo.DoesNotExist:
             raise NotFound('Запись указанного поставщика не найдена.')
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data['user']
+
+        try:
+            vendor_group = Group.objects.get(name='vendor_base')
+        except Group.DoesNotExist:
+            raise ValidationError({
+                'group': 'Группа "vendor_base" не найдена. Пожалуйста, создайте её в админке.'
+            })
+
+        if not user.groups.filter(name='vendor_base').exists():
+            user.groups.add(vendor_group)
+
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
 
     @action(detail=False, methods=['patch'])
     def change_description(self, request):
@@ -651,36 +726,62 @@ class OrderView(ModelViewSet):
 
 class UploadItemsCSV(APIView):
     parser_classes = [MultiPartParser]
-
     permission_classes = [IsAuthenticated, IsVendorOrManager]
 
     def post(self, request, *args, **kwargs):
         file = request.FILES.get('file')
 
-        if not file or not file.name.endswith('.csv'):
-            return Response({'error': 'Пожалуйста, загрузите CSV-файл.'}, status=status.HTTP_400_BAD_REQUEST)
+        if not file:
+            return Response({'error': 'Файл не прикреплён.', }, status=status.HTTP_400_BAD_REQUEST)
 
-        decoded_file = file.read().decode('utf-8')
-        csv_reader = csv.DictReader(decoded_file.splitlines(), delimiter=';')
+        if not file.name.endswith('.csv'):
+            return Response({'error': 'Разрешены только файлы с расширением .csv', }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            decoded_file = file.read().decode('utf-8')
+        except UnicodeDecodeError:
+            return Response({'error': 'Не удалось декодировать файл. Убедитесь, что он в кодировке UTF-8.', }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            csv_reader = csv.DictReader(decoded_file.splitlines(), delimiter=';')
+            if not csv_reader.fieldnames:
+                return Response({'error': 'CSV-файл пуст или содержит некорректные данные.', }, status=status.HTTP_400_BAD_REQUEST)
+        except Exception:
+            return Response({'error': 'Не удалось прочитать CSV-файл. Проверьте структуру.', }, status=status.HTTP_400_BAD_REQUEST)
 
         items_to_create = []
         errors = []
 
-        if request.user.groups.filter(name__in='manager_base').exists():
+        if 'manager_base' in [group.name for group in request.user.groups.all()]:
             vendor = request.data.get('vendor')
             if not vendor:
-                return Response({
-                    'status': 'error',
-                    'message': 'В запросе не указан поставщик.'
-                }, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'В запросе не указан поставщик.', }, status=status.HTTP_400_BAD_REQUEST)
         else:
             vendor = request.user.id
 
         for row in csv_reader:
-            print(row)
+            info_list = []
+            row_copy = row.copy()
 
-            row['vendor'] = vendor
-            serializer = ItemSerializer(data=row)
+            i = 1
+            while True:
+                type_key = f'type_{i}'
+                value_key = f'value_{i}'
+                if type_key in row and value_key in row and row[type_key] and row[value_key]:
+                    info_list.append({
+                        'type_info': row[type_key],
+                        'value_info': row[value_key]})
+
+                    row_copy.pop(type_key, None)
+                    row_copy.pop(value_key, None)
+                else:
+                    break
+                i += 1
+
+            row_copy['vendor'] = vendor
+            row_copy['info'] = info_list
+
+            serializer = ItemSerializer(data=row_copy)
             if serializer.is_valid():
                 items_to_create.append(serializer.validated_data)
             else:
@@ -693,10 +794,58 @@ class UploadItemsCSV(APIView):
                 'errors': errors
             }, status=status.HTTP_207_MULTI_STATUS)
 
-        items = [Item(**item) for item in items_to_create]
-        Item.objects.bulk_create(items)
+        created_items = []
+        for item_data in items_to_create:
+            info_data = item_data.pop('info', [])
+            item = Item(**item_data)
+
+            try:
+                item.full_clean()
+                item.save()
+                created_items.append(item)
+
+                for info in info_data:
+                    ItemInfo.objects.create(item=item, **info)
+
+            except Exception as e:
+                errors.append({
+                    'item': item_data.get('name'),
+                    'error': str(e)
+                })
+
+        if errors:
+            return Response({
+                'status': 'partial_success',
+                'created': len(created_items),
+                'errors': errors
+            }, status=status.HTTP_207_MULTI_STATUS)
 
         return Response({
             'status': 'success',
-            'message': f'Успешно создано {len(items_to_create)} товаров.'},
-            status=status.HTTP_201_CREATED)
+            'message': f'Успешно создано {len(created_items)} товаров.'
+        }, status=status.HTTP_201_CREATED)
+
+
+class ItemInfoView(ModelViewSet):
+    serializer_class = ItemInfoSerializer
+    queryset = ItemInfo.objects.all()
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAuthenticated(), IsInGroups(['manager_base'])]
+        return [IsAuthenticated()]
+
+    def get_queryset(self):
+        queryset = ItemInfo.objects.select_related('item')
+        item_id = self.request.query_params.get('item')
+        if item_id:
+            queryset = queryset.filter(item_id=item_id)
+        return queryset
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({
+            'status': 'success',
+            'message': f'Информация "{instance.type_info}" удалена.'
+        }, status=status.HTTP_200_OK)

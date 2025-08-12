@@ -27,15 +27,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/register/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/register/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"register",
@@ -60,15 +55,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/login/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/login/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"login",
@@ -93,15 +83,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/login/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/login/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"login",
@@ -126,15 +111,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/login/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/login/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"login",
@@ -159,15 +139,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/login/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/login/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"login",
@@ -192,15 +167,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/login/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/login/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"login",
@@ -226,15 +196,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/user-info/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/user-info/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"user-info",
@@ -263,12 +228,10 @@
 									"raw": "{\n    \"type_info\": \"phone\",\n    \"value_info\": \"+79123456789\"\n}"
 								},
 								"url": {
-									"raw": "http://localhost:8000/api/user-info/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/user-info/",
 									"host": [
-										"localhost"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"user-info",
@@ -289,15 +252,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/user-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/user-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"user-info",
@@ -327,15 +285,10 @@
 									"raw": "{\n    \"type_info\": \"birthdate\",\n    \"value_info\": \"1990-01-01\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/user-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/user-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"user-info",
@@ -357,15 +310,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/user-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/user-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"user-info",
@@ -392,15 +340,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/position/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/position/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"position",
@@ -429,15 +372,10 @@
 									"raw": "{\n    \"name\": \"Менеджер по продажам\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/position/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/position/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"position",
@@ -458,15 +396,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/position/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/position/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"position",
@@ -496,15 +429,10 @@
 									"raw": "{\n    \"name\": \"Руководитель отдела\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/position/1",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/position/1",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"position",
@@ -525,15 +453,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/position/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/position/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"position",
@@ -560,15 +483,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -597,15 +515,10 @@
 									"raw": "{\n    \"user\": 1,\n    \"position\": \"Менеджер\",\n    \"is_active\": true\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -626,15 +539,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -664,15 +572,10 @@
 									"raw": "{\n    \"user\": 1,\n    \"position\": \"Руководитель отдела\",\n    \"is_active\": true\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -702,15 +605,10 @@
 									"raw": "{\n    \"position\": \"Старший Менеджер\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -732,15 +630,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -770,15 +663,10 @@
 									"raw": "{\n    \"description\": \"Уволен по собственному желанию\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/staff-info/1/dissmiss/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/staff-info/1/dissmiss/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"staff-info",
@@ -806,15 +694,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/client/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/client/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -844,15 +727,10 @@
 									"raw": "{\n    \"city\": \"Москва\",\n    \"street\": \"Ленина\",\n    \"house\": \"10\",\n    \"apartment\": \"5\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/client/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/client/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -874,15 +752,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/client/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/client/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -913,15 +786,10 @@
 									"raw": "{\n    \"city\": \"Санкт-Петербург\",\n    \"street\": \"Невский\",\n    \"house\": \"15\",\n    \"apartment\": \"10\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/client/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/client/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -944,15 +812,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/client/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/client/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -975,15 +838,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/manager/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/manager/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -1005,15 +863,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/manager/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/manager/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -1044,15 +897,10 @@
 									"raw": "{\n    \"user\": 2,\n    \"city\": \"Екатеринбург\",\n    \"street\": \"Ленина\",\n    \"house\": \"30\",\n    \"apartment\": \"100\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/manager/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/manager/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -1075,15 +923,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/addresses/manager/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/addresses/manager/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"addresses",
@@ -1111,15 +954,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/vendors/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/vendors/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"vendors",
@@ -1148,15 +986,10 @@
 									"raw": "{\n    \"user\": 1,\n    \"description\": \"Описание поставщика\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/vendors/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/vendors/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"vendors",
@@ -1177,15 +1010,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/vendors/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/vendors/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"vendors",
@@ -1215,15 +1043,10 @@
 									"raw": "{\n    \"user\": 1,\n    \"description\": \"Обновленное описание\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/vendors/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/vendors/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"vendors",
@@ -1245,15 +1068,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/vendors/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/vendors/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"vendors",
@@ -1283,15 +1101,10 @@
 									"raw": "{\n    \"description\": \"Новое описание для моего профиля\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/vendors/change_description/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/vendors/change_description/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"vendors",
@@ -1313,15 +1126,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1337,15 +1145,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items?category=1",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items?category=1",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items"
@@ -1366,15 +1169,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items?categories=1,2",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items?categories=1,2",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items"
@@ -1395,15 +1193,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items?search=lamp",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items?search=lamp",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items"
@@ -1424,15 +1217,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items?ordering=price",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items?ordering=price",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items"
@@ -1453,15 +1241,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1491,15 +1274,10 @@
 									"raw": "{\n    \"name\": \"Новый товар\",\n    \"description\": \"Описание товара\",\n    \"price\": \"999.99\",\n    \"quantity\": \"10\",\n    \"categories\": [1]\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/new_item/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/new_item/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1529,15 +1307,10 @@
 									"raw": "{\n    \"price\": \"599.99\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/1/change_price/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/1/change_price/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1564,15 +1337,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/1/deactivate/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/1/deactivate/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1599,15 +1367,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/1/activate/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/1/activate/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1638,15 +1401,10 @@
 									"raw": "{\n    \"quantity\": \"2\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/items/1/add_to_basket/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/items/1/add_to_basket/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"items",
@@ -1669,15 +1427,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1693,15 +1446,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1731,15 +1479,10 @@
 									"raw": "{\n    \"name\": \"Новая категория\",\n    \"description\": \"Описание категории\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1768,15 +1511,10 @@
 									"raw": "{\n    \"name\": \"Обновленная категория\",\n    \"description\": \"Обновленное описание\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1798,15 +1536,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/1/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/1/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1836,15 +1569,10 @@
 									"raw": "{\n    \"category\": 1,\n    \"item\": 1\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/add_item/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/add_item/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1874,15 +1602,10 @@
 									"raw": "{\n    \"category\": 1,\n    \"items\": \"[1, 2, 3]\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/categories/add_items/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/categories/add_items/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"categories",
@@ -1909,15 +1632,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -1946,15 +1664,10 @@
 									"raw": "{\n    \"user\": 1,\n    \"address\": 1,\n    \"state\": \"basket\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -1975,15 +1688,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/get_my_orders/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/get_my_orders/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2013,15 +1721,10 @@
 									"raw": "{\n    \"address\": 1\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/start_order/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/start_order/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2044,15 +1747,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/order_collecting/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/order_collecting/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2075,15 +1773,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/order_collected/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/order_collected/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2106,15 +1799,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/order_shipped/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/order_shipped/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2137,15 +1825,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/order_delivered/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/order_delivered/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2176,15 +1859,10 @@
 									"raw": "{\n    \"comment\": \"Отказ клиента\"\n}"
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/order_canceled/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/order_canceled/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2207,15 +1885,10 @@
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/orders/1/order_canceled/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/orders/1/order_canceled/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
 										"orders",
@@ -2249,23 +1922,18 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "postman-cloud:///1f055f65-de17-4da0-bb83-84535dffc425"
+											"src": "postman-cloud:///1f077abd-d7ac-4950-bcf8-9915c442827e"
 										}
 									]
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/upload-items-csv/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/upload-csv/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
-										"upload-items-csv",
+										"upload-csv",
 										""
 									]
 								}
@@ -2299,18 +1967,195 @@
 									]
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8000/api/upload-items-csv/",
-									"protocol": "http",
+									"raw": "{{baseURL}}/api/upload-csv/",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{baseURL}}"
 									],
-									"port": "8000",
 									"path": [
 										"api",
-										"upload-items-csv",
+										"upload-csv",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "item-info",
+					"item": [
+						{
+							"name": "GET — Все записи",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/item-info/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"item-info",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GET — Фильтр по товару",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/item-info/?item=1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"item-info",
+										""
+									],
+									"query": [
+										{
+											"key": "item",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST — Создать информацию",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"item\": 1,\n  \"type_info\": \"Гарантия\",\n  \"value_info\": \"24 месяца\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/item-info/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"item-info",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PUT — Полное обновление",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"item\": 1,\n  \"type_info\": \"Гарантия\",\n  \"value_info\": \"36 месяцев\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/item-info/1/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"item-info",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "PATCH — Частичное обновление",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"value_info\": \"Обновлено через PATCH\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/item-info/1/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"item-info",
+										"1",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE — Удалить запись",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{access_token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/item-info/1/",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"item-info",
+										"1",
 										""
 									]
 								}
@@ -2320,6 +2165,18 @@
 					]
 				}
 			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "http://127.0.0.1:8000",
+			"type": "default"
+		},
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "default"
 		}
 	]
 }
